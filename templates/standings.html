@@ -1,0 +1,81 @@
+{% extends "base-nav.html" %}
+{% block title %} Home {% endblock %}
+
+
+{% block mainArea %}
+
+<div class="container">
+
+        <div class="h-auto">
+
+            <h4 class="mx-auto text-center mt-5"> Standings </h4>
+            <hr>
+            <select class="form-select mt-3" name="dropdown" id="dropdown" aria-label="Default select example">
+                <option value="-1" selected>Choose a Season/ Overall</option>
+                {% if ids|length %}
+                    <option value="0">Overall</option>
+                    {% for name,value in ids.items() %}
+                        <option value="{{value}}">{{name}}</option>
+                    {% endfor %}
+                {% else %}
+                        <option>None</option>
+                {% endif %}
+        </select>
+
+        <div class="table-responsive mx-auto mt-5">
+            <table class="table mx-auto w-50 text-center">
+                <thead>
+                <tr>
+                    <th scope="col">Place</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if names_and_points|length %}
+                    {% for names ,points in names_and_points.items() %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ names }}</td>
+                        <td>{{ points }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td></td>
+                    <td>None</td>
+                    <td></td>
+                </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<form method="POST" role="form" >
+    <input type="text" name="sid" hidden id="dropdown_input" value="">
+    <input id="myHiddenSubmit" hidden type="submit">
+</form>
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+
+ var sid = {{sid}}
+
+ if(sid >=0 ){
+    $("#dropdown").val(sid)
+ }
+
+
+ $("[name=dropdown]").change(function(){
+
+    $("#dropdown_input").val(this.value)
+    $("#myHiddenSubmit").click();
+
+ });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,246 @@
+{% extends "base-nav.html" %}
+{% block title %}Tournament{% endblock %}
+{% block addseason %}{% endblock %}
+{% block mainArea %}
+<div class="container ">
+
+    <form  action="/makeTournament" method="POST" role="form" class="form-horizontal">
+
+            <h4 class="text-center mb-0 mt-4">
+                New Season or Add Event to Season (Admins)
+            </h4>
+
+            <label for="seasonName" class="mt-4">New Season</label>
+            <input type="text" class="form-control" id="seasonName" name="newSeasonName"  required>
+
+            {% if curr_season|length %}
+
+            <select class="form-select  mt-3" name="existingSeasonId" id="seasonNameDropdown" aria-label="Default select example" required>
+                <option value>Add To Your Existing Seasons</option>
+                {% for s1 in curr_season %}
+                <option value="{{s1.season_id}}">{{ s1.name }}</option>
+                {% endfor %}
+            </select>
+
+            {% else %}
+
+            <select class="form-select  mt-3"  aria-label="Default select example" >
+                <option value>Your Seasons</option>
+            </select>
+
+            {% endif %}
+
+    <!----------------------------!-->
+
+            <hr>
+            <h4 class="text-center mt-4 mb-0">
+                    Add Event
+            </h4>
+
+            <label for="tourName">Event Name</label>
+            <input type="text" class="form-control" id="tourName" name="tourName" placeholder="" required>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Fighter 1</th>
+                        <th scope="col" class="text-center">Fighter 2</th>
+                        <th scope="col" class="text-center"># of RDs</th>
+                        <th scope="col" class="text-center">Prelim</th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="topTable">
+
+                    <tr class="inputRow">
+                        <td><input type="text" name="opp1[]" value="" class="form-control oneInputRow"   required></td>
+                        <td><input type="text" name="opp2[]" value="" class="form-control oneInputRow"  required></td>
+                        <td><input type="text" name="rd[]" value="" class="form-control oneInputRow"   required></td>
+
+                        <td class="text-center ">
+                            <div class="btn-group btn-group-toggle mt-1"  data-toggle="buttons">
+                                <label class="btn btn-sm btn-outline-warning">
+                                    <input type="radio" class="prelimtemp" value="y" > Prelim
+                                    <input hidden type="text" name="prelim[]" value="">
+                                </label>
+                                <label class="btn btn-sm btn-outline-danger">
+                                    <input type="radio"   class="prelimtemp" value="n"> Main
+                                    <input hidden type="text" name="prelim[]" value="">
+                                </label>
+                            </div>
+                        </td>
+
+                        <td><button class="btn x-button" type="button" >&#10006;</button></td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <button class="btn btn-primary mb-3 rounded ml-3" id="submitFighters" type="submit">Submit</button>
+                <button class="btn btn-primary mb-3 rounded " id="anotherRow" type="button">Another Row</button>
+            </div>
+
+            <hr>
+
+
+    </form>
+</div>
+<!--Success Modal -->
+<div class="modal  fade" id="successModal" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1"><div class="alert alert-success"><strong>Success</strong></div></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Successfully Created, Check your home page or event in chosen season.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<! -- Failure Modal -->
+<div class="modal  fade" id="failureModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel12"><div class="alert alert-danger"><strong>Failed</strong></div></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="failureBody">Something went wrong with your creation</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block script %}
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+       let maxFights = 20;
+       let currentNo_OfRows = 1;
+       var input_section = $("#input-section");
+       var anotherRow = $("#anotherRow");
+       var inputRow = $(".inputRow");
+       var seasonName = $("#seasonName");
+       var dropdown = $("#seasonNameDropdown");
+       var tourName = $("#tourName");
+       var successModal_Shown = {{success}}
+       var successModal = $("#successModal");
+       var failureModal = $("#failureModal");
+       var failureBody  = $("#failureBody");
+
+       if(successModal_Shown == 1){
+
+           successModal.modal("show");
+
+       }else if(successModal_Shown == 0){
+
+           failureBody.html("Something Went Wrong With Your Creation.");
+           failureModal.modal("show");
+
+       }else if(successModal_Shown == -2){
+
+           failureBody.html("This Season Already Exists. Type Another Name.");
+           failureModal.modal("show");
+
+       }else if(successModal_Shown == -3){
+
+           failureBody.html("This Season Does NOT Exist.");
+           failureModal.modal("show");
+
+       }else if(successModal_Shown == -4){
+
+           failureBody.html("This Event Already Exists. Please type another name.");
+           failureModal.modal("show");
+
+       }
+
+
+
+<!--   Create New OR Add To Existing Season-->
+       $(seasonName).change(function () {
+
+           if(this.value !== ""){
+
+                dropdown.prop("disabled", true);
+                dropdown.prop('required',false);
+
+           }else{
+
+                dropdown.prop("disabled", false);
+                dropdown.prop('required',true);
+           }
+
+       })
+
+       $(dropdown).change(function () {
+
+           if(this.value !== ""){
+
+                seasonName.prop("disabled", true);
+                seasonName.prop('required',false);
+
+           }else{
+
+                seasonName.prop("disabled", false);
+                seasonName.prop('required',true);
+           }
+
+       })
+
+
+       $(anotherRow).click(function () {
+
+
+            if(currentNo_OfRows < maxFights){
+
+                 var newRow = '<tr class="inputRow"><td><input type="text" class="form-control oneInputRow" name="opp1[]" value="" ></td><td><input type="text" class="form-control oneInputRow" name="opp2[]" value="" ></td><td><input type="text" class="form-control oneInputRow" name="rd[]" value="" placeholder="3"><td class="text-center"><div class="btn-group btn-group-toggle mt-1"  data-toggle="buttons"><label class="btn btn-sm btn-outline-warning"><input type="radio" class="prelimtemp" value="y"> Prelim<input hidden type="text" name="prelim[]" value=""></label><label class="btn btn-sm btn-outline-danger"><input type="radio"  class="prelimtemp" value="n"> Main<input hidden type="text" name="prelim[]" value=""></label></div></td><td style="position:relative;border-top:0px;"><button class="btn x-button" type="button">&#10006;</button></td></tr>';
+                 currentNo_OfRows++;
+                 $('#topTable').append(newRow);
+             }
+         });
+
+         $(document).on('click', '.x-button', function(e){
+
+             if(currentNo_OfRows > 1){
+
+                 e.preventDefault();
+                 $(this).parent().parent().remove();
+                 currentNo_OfRows--;
+             }
+         })
+
+          $(document).on('click', '.prelimtemp', function(e){
+
+             $(this)[0].nextElementSibling.value = $(this).val();
+             if($(this).val() == "y"){
+                $(this).parent().parent()[0].children[1].children[1].value=""
+              }else{
+                 $(this).parent().parent()[0].children[0].children[1].value=""
+              }
+         })
+
+
+});
+
+</script>
+{% endblock %}

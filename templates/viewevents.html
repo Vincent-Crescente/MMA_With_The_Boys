@@ -1,0 +1,88 @@
+{% extends "base-nav.html" %}
+{% block title %} Home {% endblock %}
+
+
+{% block mainArea %}
+<h4 class="mt-1 ml-2">Events for {{season_name}}</h4>
+
+<div class="d-flex row justify-content-center">
+
+    <table class="table col-6 mt-4">
+
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">Event</th>
+            <th scope="col" class="text-center">Active</th>
+            <th scope="col" class="text-center"></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if tournaments_info|length %}
+        {% for s1 in tournaments_info['events'] %}
+        <tr>
+            <td class="text-center align-middle">{{s1.name}}</td>
+            <td class="text-center align-middle">{{s1.active}}</td>
+
+                {% if s1.id in tournsEnrolled_byUser %}
+                <td>
+                    <button class="{{s1.id}} btn-block btn btn-warning btn-view btn-md">View Picks</button>
+                </td>
+                {% else %}
+                    {% if s1.active %}
+                        {% if s1.started %}
+                        <td>
+                            <button class="{{s1.id}} btn-block d-block btn btn-secondary btn-md" disabled>Started</button>
+                        </td>
+                        {% else %}
+                        <td>
+                            <button class="{{s1.id}} btn-block d-block btn btn-primary btn-draft btn-md">Draft</button>
+                        </td>
+                        {% endif %}
+                    {% else %}
+                    <td>
+                        <button class="btn-block d-block btn btn-danger btn-md" disabled>Ended</button>
+                    </td>
+                    {% endif %}
+                {% endif %}
+
+
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td class="text-center"></td>
+            <td class="text-center">None Active</td>
+            <td class="text-center"></td>
+            <td></td>
+        </tr>
+        {% endif %}
+
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+   var draft = $(".btn-draft")
+   var view = $(".btn-view")
+
+        $(draft).click(function(){
+
+            season_id = this.classList[0];
+            window.location.href = "/draftpage/" + season_id
+
+        });
+        $(view).click(function(){
+
+            season_id = this.classList[0];
+            window.location.href = "/viewpicks/" + season_id
+
+        });
+
+     });
+</script>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base-nav.html" %}
+{% block title %} Instructions {% endblock %}
+
+
+
+{% block mainArea %}
+
+<div class="container mt-4" >
+
+        <div class="accordion mx-auto" id="accordionExample">
+
+            <div class="card ">
+                <div class="card-header " id="headingOne">
+                    <h2 class="text-center  mb-0">
+                        <button class="btn btn-block text-left  text-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">How To Play</button>
+                    </h2>
+                </div>
+
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+            <ol>
+                <li class="mb-2">Enroll in a Season</li>
+                <li class="mb-2">Draft fighters in Events as they appear in the Season</li>
+                <li>Score points after drafting as admin updates results</li>
+            </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h4 class="text-center mb-0 ">
+                        <button class="btn btn-block text-left text-center" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Being a Player</button>
+                    </h4>
+                </div>
+            </div>
+
+
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                <ol>
+                    <li class="mb-2">Score more points in a season than any other players to win</li>
+                    <li>Amount of events in a season is predetermined by the league</li>
+                </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                <h4 class="text-center mb-0 ">
+                    <button class="btn btn-block text-left text-center" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Being a Admin</button>
+                </h4>
+                </div>
+            </div>
+
+
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <ol>
+                        <li class="mb-2">To be an admin you must create a season to run in 'Add Season/Become an Admin'.
+                        </li>
+                        <li class="mb-2">Add events to our season as you please. Other players enrolled in your season
+                        will see the events as they are added</li>
+                        <li>When you decide, you will need enter the outcome of the fights using the 'Update Results' button in the 'Admin Controls' table in your Profile.</li>
+                    </ol>
+                    <ul style="list-style-type:none;">
+                        <li><strong>*</strong> Non-Admins <strong>do not</strong> have an 'Admin Controls' table in their profile</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header" id="headingFour">
+                    <h4 class="text-center mb-0">
+                        <button class="btn btn-block text-left text-center" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">Scoring Process</button>
+                    </h4>
+                </div>
+            </div>
+
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <ol>
+                        <li class="mb-2">Your fighter must win to earn additional points
+                        </li>
+                        <li class="mb-2">Additional points include getting either the 'round' or 'how' correct</li>
+                        <li>If both are correct a bonus will ensue due to you getting the pick perfect</li>
+                    </ol>
+                    <p>A combination of getting the categories 'Winner' + 'Round' + 'How' correct will determine your score</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingFive">
+                    <h4 class="text-center mb-0">
+                        <button class="btn btn-block text-left text-center" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">Point System</button>
+                    </h4>
+                </div>
+            </div>
+
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <h5 class="text-center">Prelim</h5>
+                    <p>Winner = +2</p>
+                    <p>Round = +1</p>
+                    <p>How  = +1</p>
+                    <p>If all three are correct a 'Perfect' <span class="font-weight-bold">+5 bonus</span> will be awarded for a total of 9 points</p>
+                    <h5 class="text-center">Main</h5>
+                    <p>Winner = <span class="font-weight-bold">+3</span></p>
+                    <p>Round = +1</p>
+                    <p>How  = +1</p>
+                    <p>If all three are correct a 'Perfect' <span class="font-weight-bold">+5 bonus</span> will be awarded for a total of <span class="font-weight-bold">10</span> points</p>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

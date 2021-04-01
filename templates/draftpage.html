@@ -1,0 +1,475 @@
+{% extends "base-nav.html" %}
+{% block mainArea %}
+
+
+<h4 class="text-left mt-2 ml-3 hidden-xs float-left"> Pick Fighters</h4>
+
+<form method="POST" action="">
+
+<div class="table-responsive">
+<table class="table  mx-auto w-auto table-hover">
+    <thead class="text-left">
+    <tr>
+        <th scope="col" class="text-center">Winner</th>
+        <th scope="col" class="text-center">How</th>
+        <th scope="col" class="text-center">When ?</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not picks_already_made|length %}
+                {% if fighterList|length %}
+
+                    {% for f1 in fighterList %}
+                    <tr>
+
+                        <td class="text-center {{f1.id}} align-middle">
+                            <div class="btn-group btn-group-toggle"  data-toggle="buttons">
+                                <label class="btn btn-sm btn-outline-primary">
+                                    <input type="radio" name="fight" required> {{f1.opp1}}
+                                </label>
+                                <label class="btn btn-sm btn-outline-primary ">
+                                    <input type="radio"  name="fight" > {{f1.opp2}}
+                                </label>
+                            </div>
+                        </td>
+
+                        <td class="text-center {{f1.id}} align-middle">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-sm btn-outline-danger ">
+                                    <input type="radio" value="1" name="how"  required> KO
+                                </label>
+                                <label class="btn btn-sm btn-outline-warning">
+                                    <input type="radio" value="2" name="how" > SUB
+                                </label>
+                                <label class="btn btn-sm btn-outline-info">
+                                    <input type="radio" value="3" class="dec" name="how"> DEC
+                                </label>
+                            </div>
+                        </td>
+                        <td class="text-center {{f1.id}} align-middle">
+                            <select class="form-select" name="dropdown" aria-label="Default select example">
+                                <option selected value="" class="{{f1.id}}">RD</option>
+                                {% for i in range(1,f1.rd|int +1) %}
+                                <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                <tr>
+                    <td class="text-center align-middle">
+                        This Tournament
+                    </td>
+
+                    <td class="text-center  align-middle">
+                        Doesn't
+                    </td>
+                    <td class="text-center  align-middle">
+                       Exist
+                    </td>
+
+                </tr>
+                {% endif %}
+
+    {% else %}
+
+        {% if fighterList|length %}
+
+                {% for f1 in fighterList %}
+                <tr>
+
+                    {% if f1.opp1 == picks_already_made[f1.id | string ()]['pickedwinner'] %}
+                    <td class="text-center {{f1.id}} align-middle">
+                        <div class="btn-group btn-group-toggle winners"  data-toggle="buttons">
+                            <label class="btn btn-sm btn-outline-primary active">
+                                <input type="radio" name="fight" checked required> {{f1.opp1}}
+                            </label>
+                            <label class="btn btn-sm btn-outline-primary ">
+                                <input type="radio"  name="fight" > {{f1.opp2}}
+                            </label>
+                        </div>
+                    </td>
+                    {% elif  f1.opp2 == picks_already_made[f1.id | string ()]['pickedwinner'] %}
+                    <td class="text-center {{f1.id}} align-middle">
+                        <div class="btn-group btn-group-toggle winners"  data-toggle="buttons">
+                            <label class="btn btn-sm btn-outline-primary ">
+                                <input type="radio" name="fight"  required> {{f1.opp1}}
+                            </label>
+                            <label class="btn btn-sm btn-outline-primary active">
+                                <input type="radio"  name="fight" checked> {{f1.opp2}}
+                            </label>
+                        </div>
+                    </td>
+                    {% endif %}
+
+
+
+                    {% set how = picks_already_made[f1.id | string ()]['how'] %}
+
+                    {% if how == "KO" %}
+                    <td class="text-center {{f1.id}} align-middle">
+                        <div class="btn-group btn-group-toggle hows" data-toggle="buttons">
+                            <label class="btn btn-sm btn-outline-danger active">
+                                <input type="radio" value="1" name="how" checked required> KO
+                            </label>
+                            <label class="btn btn-sm btn-outline-warning">
+                                <input type="radio" value="2" name="how" > SUB
+                            </label>
+                            <label class="btn btn-sm btn-outline-info">
+                                <input type="radio" value="3" class="dec" name="how"> DEC
+                            </label>
+                        </div>
+                    </td>
+                    {% elif how == "SUB" %}
+                    <td class="text-center {{f1.id}} align-middle">
+                        <div class="btn-group btn-group-toggle hows" data-toggle="buttons">
+                            <label class="btn btn-sm btn-outline-danger ">
+                                <input type="radio" value="1" name="how"  required> KO
+                            </label>
+                            <label class="btn btn-sm btn-outline-warning active">
+                                <input type="radio" value="2" name="how" checked > SUB
+                            </label>
+                            <label class="btn btn-sm btn-outline-info">
+                                <input type="radio" value="3" class="dec" name="how"> DEC
+                            </label>
+                        </div>
+                    </td>
+                    {% elif how == "DEC" %}
+                    <td class="text-center {{f1.id}} align-middle">
+                        <div class="btn-group btn-group-toggle hows" data-toggle="buttons">
+                            <label class="btn btn-sm btn-outline-danger ">
+                                <input type="radio" value="1" name="how"  required> KO
+                            </label>
+                            <label class="btn btn-sm btn-outline-warning ">
+                                <input type="radio" value="2" name="how" > SUB
+                            </label>
+                            <label class="btn btn-sm btn-outline-info active active">
+                                <input type="radio" value="3" class="dec" name="how" checked> DEC
+                            </label>
+                        </div>
+                    </td>
+                    {% endif %}
+
+
+                    {% set round = picks_already_made[f1.id | string ()]['rd'] %}
+                    <td class="text-center {{f1.id}} align-middle rounds">
+                        {% if how == "DEC" %}
+                        <select class="form-select" name="dropdown" disabled="true" aria-label="Default select example">
+
+                            <option selected value="" class="{{f1.id}}">RD</option>
+                            {% for i in range(1,f1.rd|int +1) %}
+
+                                <option value="{{i}}" >{{i}}</option>
+
+
+                            {% endfor %}
+
+                        </select>
+                        {% else %}
+                        <select class="form-select" name="dropdown" aria-label="Default select example">
+
+                        <option selected value="" class="{{f1.id}}">RD</option>
+                            {% for i in range(1,f1.rd|int +1) %}
+                                {% if i|string() == round %}
+                                    <option value="{{i}}" selected >{{i}}</option>
+                                {% else %}
+                                    <option value="{{i}}" >{{i}}</option>
+                                {% endif %}
+
+                            {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                    {% endfor %}
+            </tr>
+        {% else %}
+            <tr>
+                <td class="text-center align-middle">
+                    This Tournament
+                </td>
+
+                <td class="text-center  align-middle">
+                    Doesn't
+                </td>
+                <td class="text-center  align-middle">
+                    Exist
+                </td>
+
+            </tr>
+        {% endif %}
+
+
+    {% endif %}
+
+    <tr class="text-center">
+        <td></td>
+        <td></td>
+        <td><button type="button" id="submit" class="btn btn-primary">Submit</button></td>
+    </tr>
+
+    </tbody>
+ </table>
+</div>
+</form>
+
+<!-- Modal -->
+<div class="modal m-draftpage fade" id="draftModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Please Correct</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body draftmodal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="fillModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title alert-warning" id="fillModalLabel">Updated Picks</h5>
+                <button type="button" class="close closeBTN" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body fillin-modal-body">
+                Fight(s) have been updated.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeBTN" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block script %}
+
+<script type="text/javascript">
+
+ $(document).ready(function(){
+
+ var t_id = {{tourn_id}}
+ var season_id = {{season_id}}
+ var amount_of_fights_shown = {{fighterList|length}}
+ var submissions = []
+
+ var winners = $(".winners").children()
+ var hows = $(".hows").children()
+ var rounds = $(".rounds").children()
+
+ var fillModal = $("#fillModal")
+ var closeBTN = $("#closeBTN")
+
+<!--------------- Retrieve values already submitted -------------------->
+
+ for(i=0; i < winners.length; i++){
+
+
+         var onefight = { 'id':"", 'winner':"", 'how':"", 'when':"", 'tour_id':t_id, 'season_id':season_id}
+
+         fightrow_ID = $(winners[i]).parents().parents()[0].classList[1];
+
+         if($(winners[i]).hasClass('active')){
+
+                onefight.id = fightrow_ID
+                onefight.winner = $(winners[i])[0].innerText
+                submissions.push(onefight)
+         }
+ }
+
+
+for(i=0; i < hows.length; i++){
+
+         var onefight = { 'id':"", 'winner':"", 'how':"", 'when':"", 'tour_id':t_id, 'season_id':season_id}
+
+         fightrow_ID = $(hows[i]).parents().parents()[0].classList[1];
+
+         objIndex = find_obj_byid(fightrow_ID)
+
+         if($(hows[i]).hasClass('active')){
+
+                if(objIndex != -1){
+                    submissions[objIndex].how = $(hows[i])[0].innerText
+                 }
+         }
+ }
+
+
+for(i=0; i < rounds.length; i++){
+
+         var onefight = { 'id':"", 'winner':"", 'how':"", 'when':"", 'tour_id':t_id, 'season_id':season_id}
+
+         fightrow_ID = $(rounds[i]).parents()[0].classList[1];
+
+         objIndex = find_obj_byid(fightrow_ID)
+
+         if($(rounds[i])[0].selectedIndex > 0){
+                if(objIndex != -1){
+                    submissions[objIndex].when = parseInt($(rounds[i])[0].options.selectedIndex)
+                 }
+         }
+ }
+
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+  $( "[name^=fight]" ).change(function(){
+
+        var onefight =   { 'id':"", 'winner':"", 'how':"", 'when':"", 'tour_id':t_id, 'season_id':season_id}
+
+        fightrow_ID = this.parentElement.parentElement.parentElement.classList[1];
+
+        objIndex = find_obj_byid(fightrow_ID)
+
+        if(objIndex == -1){
+            onefight.id = fightrow_ID;
+            onefight.winner = this.parentElement.innerText;
+            submissions.push(onefight);
+        }else if(fightrow_ID == submissions[objIndex].id)  {
+            submissions[objIndex].winner = this.parentElement.innerText
+        }
+
+    });
+
+    $( "[name^=how]" ).change(function(){
+
+        if(this.value == 3){
+            $(this.parentElement.offsetParent.parentElement).siblings()[1].childNodes[1].setAttribute("disabled",true)
+            $(this.parentElement.offsetParent.parentElement).siblings()[1].childNodes[1].selectedIndex = 0;
+            $("[name=dropdown]" ).trigger("change");
+        }else{
+            $(this.parentElement.offsetParent.parentElement).siblings()[1].childNodes[1].removeAttribute("disabled")
+        }
+
+        var onefight =   { 'id':"", 'winner':"", 'how':"", 'when':"",'tour_id':t_id}
+
+        fightrow_ID = this.parentElement.parentElement.parentElement.classList[1];
+
+        objIndex = find_obj_byid(fightrow_ID)
+
+        if(objIndex == -1){
+            onefight.id = fightrow_ID;
+            onefight.how = this.parentElement.innerText;
+            submissions.push(onefight);
+        }else{
+           submissions[objIndex].how = this.parentElement.innerText
+        }
+    });
+
+    $( "[name=dropdown]" ).change(function(){
+
+        var onefight =   { 'id':"", 'winner':"", 'how':"", 'when':"", 'tour_id':t_id}
+
+        fightrow_ID = this.parentElement.classList[1];
+
+        objIndex = find_obj_byid(fightrow_ID)
+
+        if(objIndex == -1){
+            onefight.id = fightrow_ID;
+            onefight.when = this.value;
+            submissions.push(onefight);
+        }else{
+           submissions[objIndex].when = this.value
+        }
+    });
+
+    $("#submit").on("click",function(){
+        var counter = 0;
+        var problemMessages = new Set();
+        <!--Check all submissions are valid-->
+        var subLength = submissions.length;
+
+        if(subLength){
+                    submissions.forEach(function(row){
+                        counter++
+                        for (const [key, value] of Object.entries(row)){
+                              if(value !== ""){
+
+
+                              }else if(key == "when" && value < 0){
+
+                                    problemMessages.add("<li>Choose an available round at fight: "+ counter+" </li>");
+
+                              }else if(key == "when"){
+
+                                    if(row['how'] == 'DEC'){
+
+
+
+                                    }else{
+
+                                        problemMessages.add("<li>Please choose all applicable choices. Problem(s) at fight: "+ counter+" </li>");
+                                  }
+
+                              }else{
+
+                                        problemMessages.add("<li>Please choose all applicable choices. Problem(s) at fight: "+counter+" </li>");
+                              }
+                          }
+                     });
+            }else{
+                    problemMessages.add("<li>Please fill out draft</li>");
+            }
+
+            var emptyFights = amount_of_fights_shown - subLength;
+            if(emptyFights !== 0){ problemMessages.add("<li>Please fill out " + emptyFights + " empty fights.</li>");  }
+
+            if(problemMessages.size !== 0){
+
+                $(".draftmodal-body").html('')
+                $("#draftModal").modal('show')
+                $(".draftmodal-body").append("<ul id='problemList'></ul>")
+                for (let item of problemMessages){
+                    $(item).appendTo("#problemList")
+                }
+            }else{
+
+                            var sent = $.ajax({
+                              type: 'POST',
+                              contentType:"application/json; charset=utf-8",
+                              url: "http://127.0.0.1:5000/draftpage/",
+                              data: JSON.stringify(submissions),
+                              processdata: false,
+                              dataType: 'json',
+                              success:function(response){
+                              fillModal.modal("show");
+                              closeBTN.click(function(){
+
+                                    window.location.href="http://127.0.0.1:5000/"+response;
+
+                              })
+
+                              fillModal.focusout(function(){
+
+                                    window.location.href="http://127.0.0.1:5000/"+response;
+
+                               })
+                              }
+
+                            });
+
+            }
+
+    })
+
+    function find_obj_byid(id){
+
+        objIndex = submissions.findIndex((obj => obj.id == id));
+
+        return objIndex
+    }
+ });
+</script>
+
+
+{% endblock %}   
+                                     

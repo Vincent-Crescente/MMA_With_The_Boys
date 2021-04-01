@@ -1,0 +1,88 @@
+{% extends "base-nav.html" %}
+{% block title %} Home {% endblock %}
+
+
+{% block mainArea %}
+
+<h4 class="mt-1 ml-2">Welcome, {{userdata.username}}</h4>
+
+<div class="table-responsive">
+
+<table class="table  mx-auto w-auto  mt-4">
+
+    <thead>
+    <tr>
+        <th scope="col" class="text-center">Season Name</th>
+        <th scope="col" class="text-center">Active</th>
+        <th scope="col" class="text-center">Admin</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if seasondata|length %}
+        {% for s1 in seasondata %}
+    <tr>
+
+        <td class="text-center align-middle">{{s1.name}}</td>
+        <td class="text-center align-middle">{{s1.active}}</td>
+        <td class="text-center align-middle">{{s1.admin}}</td>
+        {% if s1.id in seasonsEnrolled_byUser %}
+        <td>
+            <button class="{{s1.id}} btn-block btn btn-warning btn-view btn-md">Enrolled/Draft/View Picks</button>
+        </td>
+        {% else %}
+        <td>
+            <button class="{{s1.id}} btn-block d-block btn btn-primary btn-draft btn-md" data-toggle="modal" data-target="#enrolledmodal">Enroll/Draft</button>
+        </td>
+        {% endif %}
+    </tr>
+        {% endfor %}
+    {% else %}
+    <tr>
+        <td class="text-center"></td>
+        <td class="text-center">None Active</td>
+        <td class="text-center"></td>
+        <td></td>
+    </tr>
+    {% endif %}
+
+    </tbody>
+</table>
+
+
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+   var draft = $(".btn-draft")
+   var view = $(".btn-view")
+   var modal = $("#enrolledmodal")
+   var yesBTN = $("#yesBTN")
+   var noBTN = $("#noBTN")
+
+
+        $(draft).click(function(){
+
+            value1 = this.classList[0];
+
+            $(yesBTN).click( function(){
+
+                season_id = value1;
+                window.location.href = "/viewevents/" + season_id
+
+            })
+
+        });
+
+        $(view).click(function(){
+
+            season_id = this.classList[0];
+            window.location.href = "/viewevents/" + season_id
+
+        });
+
+     });
+</script>
+{% endblock %}

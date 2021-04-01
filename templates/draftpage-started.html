@@ -1,0 +1,125 @@
+{% extends "base-nav.html" %}
+{% block mainArea %}
+
+
+<h4 class="text-left mt-2 ml-3 hidden-xs float-left"> Pick Fighters</h4>
+
+<form method="POST" action="">
+
+    <div class="table-responsive">
+        <table class="table  mx-auto w-auto table-hover">
+            <thead class="text-left">
+            <tr>
+                <th scope="col" class="text-center">Winner</th>
+                <th scope="col" class="text-center">How</th>
+                <th scope="col" class="text-center">When ?</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if fighterList|length %}
+            {% for f1 in fighterList %}
+            <tr>
+                <td class="text-center {{f1.id}} align-middle">
+                    <div class="btn-group btn-group-toggle"  data-toggle="buttons">
+                        <label class="btn btn-sm btn-outline-primary">
+                            <input type="radio" name="fight" required> {{f1.opp1}}
+                        </label>
+                        <label class="btn btn-sm btn-outline-primary ">
+                            <input type="radio"  name="fight" > {{f1.opp2}}
+                        </label>
+                    </div>
+                </td>
+
+                <td class="text-center {{f1.id}} align-middle">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-sm btn-outline-danger ">
+                            <input type="radio" value="1" name="how"  required> KO
+                        </label>
+                        <label class="btn btn-sm btn-outline-warning">
+                            <input type="radio" value="2" name="how" > SUB
+                        </label>
+                        <label class="btn btn-sm btn-outline-info">
+                            <input type="radio" value="3" class="dec" name="how"> DEC
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center {{f1.id}} align-middle">
+                    <select class="form-select" name="dropdown" aria-label="Default select example">
+                        <option selected value="-1" class="{{f1.id}}">RD</option>
+                        {% for i in range(1,f1.rd|int +1) %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                {% endfor %}
+            </tr>
+            {% else %}
+            <tr>
+                <td class="text-center align-middle">
+                    This Tournament
+                </td>
+
+                <td class="text-center  align-middle">
+                    Doesn't
+                </td>
+                <td class="text-center  align-middle">
+                    Exist
+                </td>
+
+            </tr>
+            {% endif %}
+            <tr class="text-center">
+                <td></td>
+                <td></td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<div class="modal" id="doesntExistModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tournament Doesn't Exist</h5>
+                <button type="button" class="close closeBTN" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You will be returned to your original page.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeBTN" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block script %}
+
+<script type="text/javascript">
+    var doesntExistModal = $("#doesntExistModal")
+    var closeBTN = $(".closeBTN")
+
+    if ({{started}}){
+        doesntExistModal.modal("show")
+    }
+
+    doesntExistModal.focusout(function(){
+
+        window.history.back();
+    })
+
+    closeBTN.click(function(){
+
+        window.history.back();
+    })
+
+</script>
+
+{% endblock %}                                        

@@ -1,0 +1,76 @@
+{% extends "base-nav.html" %}
+{% block title %} Home {% endblock %}
+
+
+
+{% block mainArea %}
+
+
+
+<h3 class="text-center align-self-center mt-5">{{ tname }}</h3>
+<div class="d-flex table-responsive row justify-content-center">
+
+    <table class="table col-6 mt-2 mx-auto w-auto">
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">Fighter</th>
+            <th scope="col" class="text-center">How</th>
+            <th scope="col" class="text-center">When</th>
+            <th scope="col" class="text-center">Points</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set totalPoints = namespace(value=0) %}
+        {% if data|length %}
+        {% for t1 in data %}
+        {% set totalPoints.value = totalPoints.value + t1.points %}
+        <tr>
+            <td class="text-center align-middle">{{t1.pickedwinner}}</td>
+            <td class="text-center align-middle">{{t1.how}}</td>
+            <td class="text-center align-middle">{{t1.rd}}</td>
+            {% if t1.points == -1 %}
+            <td class="text-center align-middle points">-</td>
+            {% else %}
+
+            <td class="text-center align-middle points">{{t1.points}}</td>
+
+            {% endif %}
+
+        </tr>
+
+        {% endfor %}
+
+        {% else %}
+        <tr>
+            <td class="text-center"></td>
+            <td class="text-center">None </td>
+            <td class="text-center">Active</td>
+            <td></td>
+        </tr>
+        {% endif %}
+
+        <tr>
+            {% if not tournData.active %}
+                <td class="text-center align-middle"><a class="btn btn-danger disabled">Completed</a></td>
+            {% elif tournData.started %}
+                <td class="text-center align-middle"><a class="btn btn-secondary disabled" >Started</a></td>
+            {% else %}
+                 <td class="text-center align-middle"><a class="btn btn-primary" href="/draftpage/{{t_id}}">Edit Picks</a></td>
+            {% endif %}
+                <td class="text-center align-middle"></td>
+                <td class="text-center align-middle">Total</td>
+            {% if totalPoints.value >= 0 %}
+            <td class="text-center align-middle points"><strong>{{totalPoints.value}}</strong></td>
+            {% endif %}
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
+{% block script %}
+
+
+
+{% endblock %}

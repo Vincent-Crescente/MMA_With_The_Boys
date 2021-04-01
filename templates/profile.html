@@ -1,0 +1,274 @@
+{% extends "base-nav.html" %}
+{% block title %} Home {% endblock %}
+{% block mainArea %}
+
+<div class="container">
+
+    <div class="text-center h3 mt-3 ">Profile Details</div>
+
+    <form method="POST" role="form" >
+
+
+    <div class="panel panel-default  mx-auto d-flex row">
+        <div class="form-group col-10 col-sm-12 col-md-10 p-0 h-100">
+
+            <div class="input-group input-group-sm h-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Username </span>
+                </div>
+                <input type="text" name="name_update" id="update_name_input" class="w-auto" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Please enter a username that is a least 8 characters, with at least one capital and one lowercase." value="" placeholder="{{username}}">
+            </div>
+
+        </div>
+
+        <button type="button" id="change_name" class="btn btn-sm btn-primary text-align-center text-nowrap col-6 col-sm-4 col-md-2" >Change Name</button>
+
+    </div>
+
+
+        <div class="text-center h3 mt-3">Current Seasons</div>
+
+    <div class="row table-responsive d-flex justify-content-center mx-auto">
+
+            <table class="table table-hover col-12 col-md-5 mt-3">
+                <thead>
+                <tr>
+                    <th scope="col" style="border-top:0px;">Seasons Enrolled</th>
+                    <th scope="col" style="border-top:0px;">Points</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for name,points in season_names.items() %}
+                <tr class="season-row">
+                    <td scope="row ">{{name}}</td>
+                    <td scope="row ">{{points}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td scope="row"><strong>Total</strong></td>
+                    <td scope="row">{{total}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+
+            <table class="table col-12 col-md-5 mt-3">
+                <thead>
+                <tr>
+                    <th scope="col" style="border-top:0px;">Event in Season</th>
+                    <th scope="col" style="border-top:0px;">Points</th>
+                </tr>
+                </thead>
+                <tbody>
+
+
+                {% if tourns|length %}
+                {% for name,points in tourns.items() %}
+                <tr>
+                    <td scope="row">{{ name }}</td>
+                    <td scope="row">{{ points }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td scope="row">Click Season</td>
+                    <td scope="row">To Get Points By Event</td>
+                </tr>
+
+                {% endif %}
+
+                <tr>
+                    <td scope="row"><strong>Total</strong></td>
+                    <td scope="row">{{total_tourn}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+</div>
+
+        <input type="text" name="season_name" hidden id="season_name_input" value="">
+        <input type="text" name="deactivate" hidden id="deactivate_input" value="">
+        <input type="text" name="delete" hidden id="delete_input" value="">
+
+        <input id="myHiddenSubmit" hidden type="submit">
+    </form>
+
+<hr>
+
+    {% if admin_table %}
+    <div class="text-center h3">Admin Controls</div>
+
+    <div class="table-responsive">
+                <table class="table mx-auto w-auto">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="border-top:0px;" class="text-center ">Your Seasons</th>
+                        <th scope="col" style="border-top:0px;" class="text-center">Event</th>
+                        <th scope="col" style="border-top:0px;" class="text-center">Active</th>
+                        <th scope="col" style="border-top:0px;" class="text-center">Fill</th>
+                        <th scope="col" style="border-top:0px;" class="text-center">Deactivate</th>
+                        <th scope="col" style="border-top:0px;" class="text-center">Delete Event</th>
+                    </tr>
+                    </thead>
+
+            {% for a1 in admin_table %}
+                <tr>
+                    <td scope="row" class="text-center align-middle">{{ a1['season_name'] }}</td>
+                    <td scope="row" class="text-center align-middle">{{ a1['event_name'] }}</td>
+                    <td scope="row" class="text-center align-middle">{{ a1['active'] }}</td>
+                    <td scope="row" class="text-center align-middle"><a href="/filltournament/{{a1['eid']}}" class="btn btn-warning" role="button">Update Results</a></td>
+                    {% if a1['active']  %}
+                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}} deactivate-btn btn-block d-block btn btn-danger btn-draft btn-md" data-toggle="modal" data-target="#deactivateModal" >Deactivate Event</button></td>
+                    {% else %}
+                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}}  btn-block d-block btn btn-secondary btn-md " disabled>Event Deactivated</button></td>
+                    {% endif %}
+                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}} delete-btn btn-block d-block btn btn-danger btn-md" data-toggle="modal" data-target="#areyousureModal" id="deleteBTN">Delete</button></td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            {% endif %}
+        </table>
+    </div>
+</div>
+
+<div class="modal fade"  id="areyousureModal" tabindex="-1" aria-labelledby="areyoursureLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title alert-danger" id="areyoursureLabel">Delete ?</h5>
+                <button type="button" class="close closeBTN" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this event ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary yesBTN" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-secondary closeBTN" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="changeNameModal" tabindex="-1" aria-labelledby="changeNameLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title alert-warning" id="changeNameLabel">Updated</h5>
+                <button type="button" class="close closeBTN2" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="username_body">
+                Your name has been updated !
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary yesBTN2" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-secondary closeBTN2" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="deactivateModal" tabindex="-1" aria-labelledby="deactivatedLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title alert-warning" id="deactivatedLabel">Deactivate ?</h5>
+                <button type="button" class="close closeBTN3" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to deactivate this event ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary yesBTN3" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-secondary closeBTN3" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+    var row_clicked = $(".season-row");
+    var deactivate_event = $(".deactivate-btn");
+    var delete_event = $(".delete-btn");
+    var input_season_name = $("#season_name_input")
+    var yesBTN = $(".yesBTN")
+    var yesBTN2 = $(".yesBTN2")
+    var yesBTN3 = $(".yesBTN3")
+    var submission = [];
+
+    if ({{popover}} == 1){
+
+        $("#username_body").html("Your name has been updated")
+        $("#changeNameLabel").html("Updated")
+        $("#changeNameModal").modal('show')
+
+    }else if ({{popover}} == 2){
+
+        $("#username_body").html("That Username Already Exists")
+        $("#changeNameLabel").html("Not Updated")
+        $("#changeNameModal").modal('show')
+
+
+    }
+
+    $(row_clicked).click(function(){
+
+        $("#season_name_input").val(this.firstElementChild.innerText)
+        $('#myHiddenSubmit').click();
+
+    })
+
+    $(deactivate_event).click(function(){
+
+        $("#deactivate_input").val(this.classList[0])
+
+
+
+                $('#myHiddenSubmit').click();
+
+
+
+     })
+
+    $("#deleteBTN").click(function(){
+
+            var t = this.classList[0]
+            $(yesBTN).click(function(){
+
+                $("#delete_input").val(t)
+                $('#myHiddenSubmit').click();
+
+            })
+
+    })
+
+    $("#change_name").click(function(){
+
+            console.log($("#update_name_input").val())
+
+
+
+                    $('#myHiddenSubmit').click();
+
+
+    })
+
+
+
+
+</script>
+{% endblock %}
