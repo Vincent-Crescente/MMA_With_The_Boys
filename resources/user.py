@@ -3,18 +3,15 @@ from flask_restful import Resource, reqparse
 from flask import session, redirect, url_for
 from models.user import UserModel
 from passlib.hash import pbkdf2_sha256
-from resources.homepage import HomePage
-from models.tournament import TournamentModel
 from flask_jwt_extended import (
     create_access_token,
-    create_refresh_token,
+    # create_refresh_token,
     get_jwt_identity,
-    jwt_required,
-    get_raw_jwt
+    # jwt_required,
 )
 from flask import render_template, make_response
-from werkzeug.security import safe_str_cmp
-from blacklist import BLACKLIST
+# from werkzeug.security import safe_str_cmp
+# from blacklist import BLACKLIST
 
 _user_parser = reqparse.RequestParser()
 _user_parser.add_argument('username',
