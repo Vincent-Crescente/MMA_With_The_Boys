@@ -1,15 +1,13 @@
 from flask import Flask, render_template, session, make_response, url_for, redirect, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
-from resources.user import UserRegister, User, UserLogin, TokenRefresh, UserLogout
+from resources.user import UserRegister, UserLogin, UserLogout
 from resources.homepage import HomePage
 from resources.tournament import Tournament
-from resources.fighter import FightersLineUp
 from resources.draftpage import DraftPage
 from resources.userpicks import UserPicks
 from resources.enrolled import Enrolled
 from resources.fillTournament import FillTournament
-from resources.addseason import Season
 from resources.viewevents import ViewEvents
 from resources.profile import Profile
 from resources.instruction import Instructions
@@ -25,14 +23,7 @@ app.config["JWT_COOKIE_SECURE"] = False
 app.secret_key = 'vinnyc'
 api = Api(app)
 
-
 jwt = JWTManager(app)  # does not create /auth, must create ourselves ex/login
-
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 
 api.add_resource(UserRegister, '/register')
 # api.add_resource(User, '/user/<int:user_id>')
@@ -55,5 +46,6 @@ api.add_resource(Standings,  '/standings/')
 #
 
 if __name__ == '__main__':
+    from db import db
     db.init_app(app)
     app.run(port=5000, debug=True)
