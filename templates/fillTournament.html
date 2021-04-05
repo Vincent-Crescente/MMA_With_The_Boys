@@ -135,20 +135,15 @@
 <!--     console.log(window.location.protocol)-->
 
 
-     if(window.location.port){
-        window.location.href = window.location.protocol + "//" + window.location.hostname + ":5000/profile/";
-     else{
         window.location.href= window.location.protocol + "//" + window.location.hostname + "/profile";
-     }
+
 
  })
  fillModal.focusout(function(){
 
-   if(window.location.port){
-        window.location.href = window.location.protocol + "//" + window.location.hostname + ":5000/profile/";
-     else{
+
         window.location.href= window.location.protocol + "//" + window.location.hostname + "/profile";
-     }
+     
 
  })
 
