@@ -17,7 +17,7 @@ class FightersLineUpModel(db.Model):
     prelim = db.Column(db.String(3))
 
     tour_id = db.Column(db.Integer, db.ForeignKey('tournaments.id'))
-    tournament = db.relationship('TournamentModel')
+    tournament = db.relationship('TournamentModel',)
 
     def __init__(self, tour_id, opp1, opp2, rd, winner="-1", how="-1", when=-1, prelim=-1):
         self.tour_id = tour_id

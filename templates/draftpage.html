@@ -258,6 +258,7 @@
 
  $(document).ready(function(){
 
+
  var t_id = {{tourn_id}}
  var season_id = {{season_id}}
  var amount_of_fights_shown = {{fighterList|length}}
@@ -436,7 +437,7 @@ for(i=0; i < rounds.length; i++){
                             var sent = $.ajax({
                               type: 'POST',
                               contentType:"application/json; charset=utf-8",
-                              url: "http://127.0.0.1:5000/draftpage/",
+                              url: window.location.protocol + "//" + window.location.hostname + "/draftpage",
                               data: JSON.stringify(submissions),
                               processdata: false,
                               dataType: 'json',
@@ -444,14 +445,27 @@ for(i=0; i < rounds.length; i++){
                               fillModal.modal("show");
                               closeBTN.click(function(){
 
-                                    window.location.href="http://127.0.0.1:5000/"+response;
+                                    if(window.location.port){
+
+                                        window.location.href= window.location.protocol + "//" + window.location.hostname + ":"+ window.location.port + "/" +response;
+
+                                    }else{
+
+                                     window.location.href= window.location.protocol + "//" + window.location.hostname + "/" +response;
+                                    }
 
                               })
 
                               fillModal.focusout(function(){
 
-                                    window.location.href="http://127.0.0.1:5000/"+response;
+                                        if(window.location.port){
 
+                                            window.location.href= window.location.protocol + "//" + window.location.hostname + ":"+ window.location.port + "/" +response;
+
+                                        }else{
+
+                                         window.location.href= window.location.protocol + "//" + window.location.hostname + "/" +response;
+                                        }
                                })
                               }
 
