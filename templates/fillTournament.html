@@ -125,6 +125,7 @@
  var submissions = []
  var closeBTN = $(".closeBTN")
  var fillModal = $("#fillModal")
+ var url = ""
 
  closeBTN.click(function(){
 
@@ -133,12 +134,21 @@
 <!--     console.log(window.location.pathname)-->
 <!--     console.log(window.location.protocol)-->
 
-     window.location.href = window.location.protocol + "//" + window.location.hostname + ":5000/profile/";
+
+     if(window.location.port){
+        window.location.href = window.location.protocol + "//" + window.location.hostname + ":5000/profile/";
+     else{
+        window.location.href= window.location.protocol + "//" + window.location.hostname + "/profile";
+     }
 
  })
  fillModal.focusout(function(){
 
-   window.location.href = window.location.protocol + "//" + window.location.hostname + ":5000/profile/";
+   if(window.location.port){
+        window.location.href = window.location.protocol + "//" + window.location.hostname + ":5000/profile/";
+     else{
+        window.location.href= window.location.protocol + "//" + window.location.hostname + "/profile";
+     }
 
  })
 
@@ -237,6 +247,9 @@
             var emptyFights = amount_of_fights_shown - subLength;
 <!--        if(emptyFights !== 0){ problemMessages.add("<li>Please fill out " + emptyFights + " empty fights.</li>");  }-->
 
+            var url = ""
+            url = window.location.protocol + "//" + window.location.hostname + "/filltournament";
+
             if(problemMessages.size !== 0){
 
                 $(".fillin-modal-body").html('')
@@ -250,7 +263,7 @@
                     var sent = $.ajax({
                       type: 'POST',
                       contentType:"application/json; charset=utf-8",
-                      url: "http://127.0.0.1:5000/filltournament/",
+                      url: url,
                       data: JSON.stringify(submissions),
                       processdata: false,
                       dataType: 'json',

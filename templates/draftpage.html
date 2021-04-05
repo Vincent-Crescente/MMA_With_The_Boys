@@ -445,27 +445,14 @@ for(i=0; i < rounds.length; i++){
                               fillModal.modal("show");
                               closeBTN.click(function(){
 
-                                    if(window.location.port){
-
-                                        window.location.href= window.location.protocol + "//" + window.location.hostname + ":"+ window.location.port + "/" +response;
-
-                                    }else{
-
                                      window.location.href= window.location.protocol + "//" + window.location.hostname + "/" +response;
-                                    }
 
                               })
 
                               fillModal.focusout(function(){
 
-                                        if(window.location.port){
-
-                                            window.location.href= window.location.protocol + "//" + window.location.hostname + ":"+ window.location.port + "/" +response;
-
-                                        }else{
-
                                          window.location.href= window.location.protocol + "//" + window.location.hostname + "/" +response;
-                                        }
+
                                })
                               }
 
