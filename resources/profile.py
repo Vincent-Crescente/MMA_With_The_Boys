@@ -252,15 +252,11 @@ class Profile(Resource):
                 # compiling regex
                 match_re = re.compile(reg)
 
-                print(data['name_update'])
-
                 res = re.search(match_re, data['name_update'])
 
                 if res:
                     user = UserModel.find_by_username(session['user'])
                     new_name = UserModel.find_by_username(data['name_update'])
-
-                    print(new_name)
 
                     if not new_name and user:
 
