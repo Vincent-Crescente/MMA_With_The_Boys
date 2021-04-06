@@ -13,7 +13,7 @@ class FightersLineUpModel(db.Model):
     rd = db.Column(db.String(1))
     winner = db.Column(db.String(80))
     how = db.Column(db.String(80))
-    when = db.Column(db.String(1))
+    when = db.Column(db.Integer)
     prelim = db.Column(db.String(3))
 
     tour_id = db.Column(db.Integer, db.ForeignKey('tournaments.id'))

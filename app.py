@@ -19,10 +19,15 @@ from db import db
 app = Flask(__name__, template_folder='templates')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db_url = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("://", "ql://", 1)
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 app.config["JWT_COOKIE_SECURE"] = False
+
+db_url = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+if db_url != 'sqlite:///data.db':
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("://", "ql://", 1)
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+
 app.secret_key = 'vinnyc'
 api = Api(app)
 
