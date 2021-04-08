@@ -170,10 +170,14 @@ class Tournament(Resource):
 
     def get(self):
 
-        admin_seasons = SeasonModel.get_seasons_by_admin(session['user'])
-        if admin_seasons:
-            seasons = [s1.json() for s1 in admin_seasons]
-        else:
-            seasons = []
+        if 'user' in session:
 
-        return make_response(render_template("makeTournament.html", curr_season=seasons, success=-1))
+            admin_seasons = SeasonModel.get_seasons_by_admin(session['user'])
+            if admin_seasons:
+                seasons = [s1.json() for s1 in admin_seasons]
+            else:
+                seasons = []
+
+            return make_response(render_template("makeTournament.html", curr_season=seasons, success=-1))
+        else:
+            return make_response(render_template("mainSignIn-pleasesignin.html"), 200)
