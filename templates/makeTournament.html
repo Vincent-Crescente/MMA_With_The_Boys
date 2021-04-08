@@ -54,17 +54,17 @@
                     <tbody id="topTable">
 
                     <tr class="inputRow">
-                        <td><input type="text" name="opp1[]" value="" class="form-control oneInputRow"   required></td>
-                        <td><input type="text" name="opp2[]" value="" class="form-control oneInputRow"  required></td>
-                        <td><input type="text" name="rd[]" value="" class="form-control oneInputRow"   required></td>
+                        <td><input type="text" name="opp1[]" value="" class="form-control oneInputRow opp1"   required></td>
+                        <td><input type="text" name="opp2[]" value="" class="form-control oneInputRow opp2"  required></td>
+                        <td><input type="text" name="rd[]" value="" class="form-control oneInputRow rd"   required></td>
 
                         <td class="text-center ">
                             <div class="btn-group btn-group-toggle mt-1"  data-toggle="buttons">
-                                <label class="btn btn-sm btn-outline-warning">
-                                    <input type="radio" class="prelimtemp" value="y" > Prelim
+                                <label class="btn btn-sm btn-outline-warning prelimLabel" >
+                                    <input type="radio" value="y" > Prelim
                                     <input hidden type="text" name="prelim[]" value="">
                                 </label>
-                                <label class="btn btn-sm btn-outline-danger">
+                                <label class="btn btn-sm btn-outline-danger prelimLabel">
                                     <input type="radio"   class="prelimtemp" value="n"> Main
                                     <input hidden type="text" name="prelim[]" value="">
                                 </label>
@@ -128,6 +128,26 @@
     </div>
 </div>
 
+<! -- Problem Modal -->
+<div class="modal  fade" id="problemModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel13"><div class="alert alert-danger"><strong>Input Error</strong></div></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="problemBody">You've missed a input</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
 {% block script %}
@@ -147,6 +167,7 @@ $(document).ready(function(){
        var successModal = $("#successModal");
        var failureModal = $("#failureModal");
        var failureBody  = $("#failureBody");
+       var problemModal = $("#problemModal");
 
        if(successModal_Shown == 1){
 
@@ -213,7 +234,7 @@ $(document).ready(function(){
 
             if(currentNo_OfRows < maxFights){
 
-                 var newRow = '<tr class="inputRow"><td><input type="text" class="form-control oneInputRow" name="opp1[]" value="" ></td><td><input type="text" class="form-control oneInputRow" name="opp2[]" value="" ></td><td><input type="text" class="form-control oneInputRow" name="rd[]" value="" placeholder="3"><td class="text-center"><div class="btn-group btn-group-toggle mt-1"  data-toggle="buttons"><label class="btn btn-sm btn-outline-warning"><input type="radio" class="prelimtemp" value="y"> Prelim<input hidden type="text" name="prelim[]" value=""></label><label class="btn btn-sm btn-outline-danger"><input type="radio"  class="prelimtemp" value="n"> Main<input hidden type="text" name="prelim[]" value=""></label></div></td><td style="position:relative;border-top:0px;"><button class="btn x-button" type="button">&#10006;</button></td></tr>';
+                 var newRow = '<tr class="inputRow"><td><input type="text" class="form-control oneInputRow opp1" name="opp1[]" value="" ></td><td><input type="text" class="form-control oneInputRow opp2" name="opp2[]" value="" ></td><td><input type="text" class="form-control oneInputRow rd" name="rd[]" value="" placeholder="3"><td class="text-center"><div class="btn-group btn-group-toggle mt-1"  data-toggle="buttons"><label class="btn btn-sm btn-outline-warning prelimLabel"><input type="radio" class="prelimtemp" value="y"> Prelim<input hidden type="text" name="prelim[]" value=""></label><label class="btn btn-sm btn-outline-danger"><input type="radio"  class="prelimtemp" value="n"> Main<input hidden type="text" name="prelim[]" value=""></label></div></td><td style="position:relative;border-top:0px;"><button class="btn x-button" type="button">&#10006;</button></td></tr>';
                  currentNo_OfRows++;
                  $('#topTable').append(newRow);
              }
@@ -239,6 +260,60 @@ $(document).ready(function(){
               }
          })
 
+
+
+       $('#submitFighters').on('click', function(e) {
+            e.preventDefault();
+            var prelimArray = $(".prelimLabel")
+            var opp1Array = $(".opp1")
+            var opp2Array = $(".opp2")
+            var rdArray = $(".rd")
+
+            var checked_counter = 0
+            var input_counter = 0
+            var input_total = opp1Array.length + opp2Array.length + rdArray.length
+            for(i=0; i < opp1Array.length; i++){
+
+                if($(opp1Array)[i].value){
+                    input_counter++;
+                }
+            }
+            for(i=0; i < opp2Array.length; i++){
+
+                if($(opp2Array)[i].value){
+                    input_counter++;
+                }
+            }
+
+            for(i=0; i < rdArray.length; i++){
+
+                if($(rdArray)[i].value){
+                    input_counter++;
+                }
+            }
+
+
+            for(i=0; i < prelimArray.length; i++){
+<!--                check-->
+                console.log(Array.from($(prelimArray)[i].classList))
+                console.log(Array.from($(prelimArray)[i].classList).includes('active'))
+                if(Array.from($(prelimArray)[i].classList).includes('active')){
+
+                    checked_counter++;
+                }
+            }
+
+            console.log("Input Total:", input_total)
+            console.log("Prelim Total Input:", prelimArray.length)
+            console.log("Input Counter:",input_counter)
+            console.log("Checked Prelim Counter:",checked_counter)
+            if(input_total == input_counter && prelimArray.length/2 == checked_counter){
+            console.log("submit")
+                $(this).submit();
+            }else{
+                problemModal.modal("show")
+            }
+       });
 
 });
 

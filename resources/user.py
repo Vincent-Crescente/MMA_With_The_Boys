@@ -24,6 +24,11 @@ _user_parser.add_argument('password',
                           required=True,
                           help="This password field cannot be left blank")
 
+_user_parser.add_argument('reentered',
+                          type=str,
+                          required=False,
+                          help="This password field cannot be left blank")
+
 
 class UserRegister(Resource):
 
@@ -39,15 +44,20 @@ class UserRegister(Resource):
 
         res = re.search(match_re, data['password'])
 
-        if res:
-            hash1 = pbkdf2_sha256.hash(data['password'])
+        if data['password'] == data['reentered'] and data['password'] and data['reentered']:
 
-            user = UserModel(data['username'], hash1)
-            user.save_to_db()
+            if res:
+                hash1 = pbkdf2_sha256.hash(data['password'])
 
-            return make_response(render_template("register-complete.html"), 201)
+                user = UserModel(data['username'], hash1)
+                user.save_to_db()
+
+                return make_response(render_template("register-complete.html"), 400)
+            else:
+                return make_response(render_template("register-problem.html"), 400)
+
         else:
-            return make_response(render_template("register-problem.html"), 201)
+            return make_response(render_template("register-passwords_dnm.html"), 400)
 
 
 
@@ -82,6 +92,7 @@ class UserLogin(Resource):
         data = _user_parser.parse_args()
 
         user = UserModel.find_by_username((data['username']))
+
 
         if user:
 
