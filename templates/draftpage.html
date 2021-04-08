@@ -434,10 +434,19 @@ for(i=0; i < rounds.length; i++){
                 }
             }else{
 
+                            if(window.location.port){
+
+                                 var url = window.location.protocol + "//" + window.location.hostname + ":"+ window.location.port + "/" +response;
+
+                                }else{
+
+                                 var url = window.location.protocol + "//" + window.location.hostname + "/" +response;
+                            }
+
                             var sent = $.ajax({
                               type: 'POST',
                               contentType:"application/json; charset=utf-8",
-                              url: window.location.protocol + "//" + window.location.hostname + "/draftpage",
+                              url: url,
                               data: JSON.stringify(submissions),
                               processdata: false,
                               dataType: 'json',
@@ -445,13 +454,29 @@ for(i=0; i < rounds.length; i++){
                               fillModal.modal("show");
                               closeBTN.click(function(){
 
+
                                      window.location.href= window.location.protocol + "//" + window.location.hostname + "/" +response;
+
+
+                                     window.location.href= url;
+
+
 
                               })
 
                               fillModal.focusout(function(){
 
                                          window.location.href= window.location.protocol + "//" + window.location.hostname + "/" +response;
+
+
+                                        if(window.location.port){
+
+                                            window.location.href= url;
+
+                                        }else{
+
+                                         window.location.href= url;
+                                        }
 
                                })
                               }
