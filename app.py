@@ -15,9 +15,6 @@ from resources.instruction import Instructions
 from resources.standings import Standings
 from db import db
 
-
-
-
 app = Flask(__name__, template_folder='templates')
 
 @app.before_first_request
