@@ -16,7 +16,14 @@ from resources.standings import Standings
 from db import db
 
 
+
+
 app = Flask(__name__, template_folder='templates')
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]

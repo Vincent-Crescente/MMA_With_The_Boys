@@ -234,7 +234,7 @@ $(document).ready(function(){
 
             if(currentNo_OfRows < maxFights){
 
-                 var newRow = '<tr class="inputRow"><td><input type="text" class="form-control oneInputRow opp1" name="opp1[]" value="" ></td><td><input type="text" class="form-control oneInputRow opp2" name="opp2[]" value="" ></td><td><input type="text" class="form-control oneInputRow rd" name="rd[]" value="" placeholder="3"><td class="text-center"><div class="btn-group btn-group-toggle mt-1"  data-toggle="buttons"><label class="btn btn-sm btn-outline-warning prelimLabel"><input type="radio" class="prelimtemp" value="y"> Prelim<input hidden type="text" name="prelim[]" value=""></label><label class="btn btn-sm btn-outline-danger"><input type="radio"  class="prelimtemp" value="n"> Main<input hidden type="text" name="prelim[]" value=""></label></div></td><td style="position:relative;border-top:0px;"><button class="btn x-button" type="button">&#10006;</button></td></tr>';
+                 var newRow = '<tr class="inputRow"><td><input type="text" class="form-control oneInputRow opp1" name="opp1[]" value="" ></td><td><input type="text" class="form-control oneInputRow opp2" name="opp2[]" value="" ></td><td><input type="text" class="form-control oneInputRow rd" name="rd[]" value="" placeholder="3"><td class="text-center"><div class="btn-group btn-group-toggle mt-1"  data-toggle="buttons"><label class="btn btn-sm btn-outline-warning prelimLabel"><input type="radio" class="prelimtemp" value="y"> Prelim<input hidden type="text" name="prelim[]" value=""></label><label class="btn btn-sm btn-outline-danger prelimLabel"><input type="radio"  class="prelimtemp" value="n"> Main<input hidden type="text" name="prelim[]" value=""></label></div></td><td style="position:relative;border-top:0px;"><button class="btn x-button" type="button">&#10006;</button></td></tr>';
                  currentNo_OfRows++;
                  $('#topTable').append(newRow);
              }
@@ -263,7 +263,7 @@ $(document).ready(function(){
 
 
        $('#submitFighters').on('click', function(e) {
-            e.preventDefault();
+
             var prelimArray = $(".prelimLabel")
             var opp1Array = $(".opp1")
             var opp2Array = $(".opp2")
@@ -303,15 +303,11 @@ $(document).ready(function(){
                 }
             }
 
-            console.log("Input Total:", input_total)
-            console.log("Prelim Total Input:", prelimArray.length)
-            console.log("Input Counter:",input_counter)
-            console.log("Checked Prelim Counter:",checked_counter)
             if(input_total == input_counter && prelimArray.length/2 == checked_counter){
-            console.log("submit")
-                $(this).submit();
+                    $('#submitFighters').submit();
             }else{
-                problemModal.modal("show")
+                    e.preventDefault();
+                    problemModal.modal("show")
             }
        });
 
