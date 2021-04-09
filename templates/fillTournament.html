@@ -242,9 +242,14 @@
             var emptyFights = amount_of_fights_shown - subLength;
 <!--        if(emptyFights !== 0){ problemMessages.add("<li>Please fill out " + emptyFights + " empty fights.</li>");  }-->
 
-            var url = ""
-            url = window.location.protocol + "//" + window.location.hostname + "/filltournament";
+             if(window.location.port){
 
+                 var url = window.location.protocol + "//" + window.location.hostname + ":"+ window.location.port + "/filltournament/";
+
+                }else{
+
+                 var url = window.location.protocol + "//" + window.location.hostname + "/filltournament/"
+             }
             if(problemMessages.size !== 0){
 
                 $(".fillin-modal-body").html('')

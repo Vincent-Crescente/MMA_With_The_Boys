@@ -161,7 +161,6 @@ class Tournament(Resource):
 
                 return make_response(render_template("makeTournament.html", curr_season=seasons, success=0))
 
-
             except RuntimeError():
 
                 return {"Message": "There was something wrong with inserting in the DB."}
