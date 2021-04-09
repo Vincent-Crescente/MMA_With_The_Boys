@@ -52,39 +52,45 @@ class Profile(Resource):
 
             season_enr = [s.json() for s in season_enr_obj]
 
-            for s1 in season_enr:
-                season = SeasonModel.get_season_byid(s1['season_id'])
+            if season_enr:
 
-                season_json = season.json()
-                season_names.append(season.name)
-                for tourn_ids in season_json['events']:
-                    all_tourn_ids_of_this_season.append(tourn_ids['id'])
+                for s1 in season_enr:
+                    season = SeasonModel.get_season_byid(s1['season_id'])
 
-            # Looping through seasons to calculate points
-            for seasonName in season_names:
-                total_points = 0
-                season = SeasonModel.get_season_byname(seasonName)
-                season_json = season.json()
-                for s2 in season_json['events']:
-                    if s2['id'] in all_tourn_ids_of_this_season:
-                        if picks:
-                            for p1 in picks:
-                                if int(p1['tournid']) == int(s2['id']):
-                                    if p1['points'] > 0:
-                                        total_points = total_points + p1['points']
-                                        points_for_each_season[seasonName] = total_points
-                                    else:
-                                        total_points = total_points + 0
-                                        points_for_each_season[seasonName] = total_points
+                    season_json = season.json()
+                    season_names.append(season.name)
+                    for tourn_ids in season_json['events']:
+                        all_tourn_ids_of_this_season.append(tourn_ids['id'])
 
-                        else:
-                            points_for_each_season[seasonName] = 0
+                # Looping through seasons to calculate points
+                for seasonName in season_names:
+                    total_points = 0
+                    season = SeasonModel.get_season_byname(seasonName)
+                    season_json = season.json()
+                    for s2 in season_json['events']:
+                        if s2['id'] in all_tourn_ids_of_this_season:
+                            if picks:
+                                for p1 in picks:
+                                    if int(p1['tournid']) == int(s2['id']):
+                                        if p1['points'] > 0:
+                                            total_points = total_points + p1['points']
+                                            points_for_each_season[seasonName] = total_points
+                                        else:
+                                            total_points = total_points + 0
+                                            points_for_each_season[seasonName] = total_points
 
-            for a, b in points_for_each_season.items():
-                summation = summation + b
+                            else:
+                                points_for_each_season[seasonName] = 0
 
-            return_values.append(points_for_each_season)
-            return_values.append(summation)
+                for a, b in points_for_each_season.items():
+                    summation = summation + b
+
+                return_values.append(points_for_each_season)
+                return_values.append(summation)
+            else:
+                return_values.append({})
+                return_values.append(0)
+
         return return_values
 
     @classmethod
@@ -223,8 +229,11 @@ class Profile(Resource):
                         seasonObj = SeasonModel.get_season_byid(sid)
                         seasonObj_events = seasonObj.json()['events']
 
+
                         if not seasonObj_events:
+
                             seasonObj.delete_from_db()
+
 
                     if fighters_obj:
                         for obj in fighters_obj:
@@ -233,6 +242,9 @@ class Profile(Resource):
                     if picks_obj:
                         for obj in picks_obj:
                             obj.delete_from_db()
+
+
+
 
                 values = Profile.calculate_season_pts()
 

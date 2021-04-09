@@ -434,63 +434,65 @@ for(i=0; i < rounds.length; i++){
                 }
             }else{
 
-                            if(window.location.port){
+                    if(window.location.port){
 
-                                 var url = window.location.protocol + "//" + window.location.hostname + ":"+ window.location.port + "/draftpage/";
+                         var url = window.location.protocol + "//" + window.location.hostname + ":"+ window.location.port + "/draftpage/";
+
+                        }else{
+
+                         var url = window.location.protocol + "//" + window.location.hostname + "/draftpage/"
+                    }
+
+                    console.log(submissions)
+
+                    var sent = $.ajax({
+                      type: 'POST',
+                      contentType:"application/json; charset=utf-8",
+                      url: url,
+                      data: JSON.stringify(submissions),
+                      processdata: false,
+                      dataType: 'json',
+                      success:function(response){
+                      fillModal.modal("show");
+                      closeBTN.click(function(){
+
+                             if(window.location.port){
+
+                                    url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + response;
+
+                                    window.location.href= url;
 
                                 }else{
 
-                                 var url = window.location.protocol + "//" + window.location.hostname + "/draftpage/"
-                            }
-
-                            var sent = $.ajax({
-                              type: 'POST',
-                              contentType:"application/json; charset=utf-8",
-                              url: url,
-                              data: JSON.stringify(submissions),
-                              processdata: false,
-                              dataType: 'json',
-                              success:function(response){
-                              fillModal.modal("show");
-                              closeBTN.click(function(){
-
-                                     if(window.location.port){
-
-                                            url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + response;
-
-                                            window.location.href= url;
-
-                                        }else{
-
-                                            url = window.location.protocol + "//" + window.location.hostname + "/" + response;
+                                    url = window.location.protocol + "//" + window.location.hostname + "/" + response;
 
 
-                                            window.location.href= url;
-                                        }
+                                    window.location.href= url;
+                                }
 
 
-                              })
+                      })
 
-                              fillModal.focusout(function(){
+                      fillModal.focusout(function(){
 
-                                        if(window.location.port){
+                                if(window.location.port){
 
-                                            url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"  +response;
+                                    url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"  +response;
 
-                                            window.location.href= url;
+                                    window.location.href= url;
 
-                                        }else{
+                                }else{
 
-                                            url = window.location.protocol + "//" + window.location.hostname + "/" +response;
+                                    url = window.location.protocol + "//" + window.location.hostname + "/" +response;
 
 
-                                            window.location.href= url;
-                                        }
+                                    window.location.href= url;
+                                }
 
-                               })
-                              }
+                       })
+                      }
 
-                            });
+                    });
 
             }
 

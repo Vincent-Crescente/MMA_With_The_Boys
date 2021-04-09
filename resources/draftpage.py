@@ -57,6 +57,7 @@ class DraftPage(Resource):
             tour_id = data[0]['tour_id']
             season_id = data[0]['season_id']
 
+
             try:
                 enrolledobj = EnrolledTournamentModel.specific_torn_user_enrolled_in(session['id'], tour_id)
                 if not enrolledobj:
