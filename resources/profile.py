@@ -52,7 +52,6 @@ class Profile(Resource):
 
             season_enr = [s.json() for s in season_enr_obj]
 
-
             for s1 in season_enr:
                 season = SeasonModel.get_season_byid(s1['season_id'])
 
@@ -86,7 +85,6 @@ class Profile(Resource):
 
             return_values.append(points_for_each_season)
             return_values.append(summation)
-
         return return_values
 
     @classmethod
