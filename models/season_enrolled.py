@@ -32,6 +32,10 @@ class SeasonEnrolledModel(db.Model):
         return cls.query.filter_by(user_id=uid).all()
 
     @classmethod
+    def get_enrolled_record_by_season_id(cls, season_id):
+        return cls.query.filter_by(season_id=season_id).all()
+
+    @classmethod
     def specific_season_by_user(cls, uid, sid):
         return cls.query.filter_by(user_id=uid, season_id=sid).first()
 

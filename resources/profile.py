@@ -56,7 +56,6 @@ class Profile(Resource):
 
                 for s1 in season_enr:
                     season = SeasonModel.get_season_byid(s1['season_id'])
-
                     season_json = season.json()
                     season_names.append(season.name)
                     for tourn_ids in season_json['events']:
@@ -218,6 +217,7 @@ class Profile(Resource):
                     fighters_obj = FightersLineUpModel.all_fighters_specific_tourn(data['delete'])
                     picks_obj = UserPicksModel.picks_by_tourn_id(data['delete'])
 
+
                     if enroll_obj:
                         for obj in enroll_obj:
                             obj.delete_from_db()
@@ -229,11 +229,12 @@ class Profile(Resource):
                         seasonObj = SeasonModel.get_season_byid(sid)
                         seasonObj_events = seasonObj.json()['events']
 
-
                         if not seasonObj_events:
-
                             seasonObj.delete_from_db()
+                            enrolled_seasonObj = SeasonEnrolledModel.get_enrolled_record_by_season_id(sid)
 
+                            for enrolled_season_obj in enrolled_seasonObj:
+                                enrolled_season_obj.delete_from_db()
 
                     if fighters_obj:
                         for obj in fighters_obj:
@@ -242,9 +243,6 @@ class Profile(Resource):
                     if picks_obj:
                         for obj in picks_obj:
                             obj.delete_from_db()
-
-
-
 
                 values = Profile.calculate_season_pts()
 
@@ -333,11 +331,13 @@ class Profile(Resource):
     @classmethod
     def validate_admin_of_season(cls, tid):
         tournObj = TournamentModel.get_tourn_by_id(tid)
-        seasonObj = SeasonModel.get_season_byid(tournObj.season_id)
-
-        if tournObj and seasonObj:
-            if safe_str_cmp(seasonObj.admin, session['user']):
-                return 1
+        if tournObj:
+            seasonObj = SeasonModel.get_season_byid(tournObj.season_id)
+            if seasonObj:
+                if safe_str_cmp(seasonObj.admin, session['user']):
+                    return 1
+                else:
+                    return 0
             else:
                 return 0
         else:
