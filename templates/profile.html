@@ -8,7 +8,7 @@
 
     <form method="POST" role="form" >
 
-
+        {% if username != "GuestUser9" %}
     <div class="panel panel-default  mx-auto d-flex row">
         <div class="form-group col-10 col-sm-12 col-md-10 p-0 h-100">
 
@@ -24,7 +24,7 @@
         <button type="button" id="change_name" class="btn btn-sm btn-primary text-align-center text-nowrap col-6 col-sm-4 col-md-2" >Change Name</button>
 
     </div>
-
+        {% endif %}
 
         <div class="text-center h3 mt-3">Current Seasons</div>
 

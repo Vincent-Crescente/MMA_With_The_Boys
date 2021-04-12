@@ -29,7 +29,7 @@ class EnrolledTournamentModel(db.Model):
 
     @classmethod
     def all_enrolled_in_tourn_id(cls, tid):
-        return cls.query.filter_by(tourn_id=tid)
+        return cls.query.filter_by(tourn_id=tid).all()
 
     @classmethod
     def all_torns_user_enrolled_in(cls, userid):
