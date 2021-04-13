@@ -5,10 +5,62 @@
 {% block mainArea %}
 
 <div class="container">
+    <div class="h-auto">
 
+        <h4 class="mx-auto text-center mt-5"> By Season By Event Standings </h4>
+        <hr>
+        <select class="form-select mt-3" name="season_dropdown" id="season_dropdown" aria-label="Default select example">
+                <option value="-1" selected>Choose a Season</option>
+            {% if ids|length %}
+            {% for name,value in ids.items() %}
+            <option value="{{value}}">{{name}}</option>
+            {% endfor %}
+            {% endif %}
+        </select>
+
+        <select class="form-select mt-3" name="tourn_dropdown" id="tourn_dropdown" aria-label="Default select example">
+                {% if events|length %}
+                {% for name,value in events.items() %}
+                    <option value="{{value}}">{{name}}</option>
+                {% endfor %}
+                {% else %}
+                    <option value="-1" selected>Choose a Event</option>
+                {% endif %}
+        </select>
+
+        <div class="table-responsive mx-auto mt-5">
+            <table class="table mx-auto w-50 text-center">
+                <thead>
+                <tr>
+                    <th scope="col">Place</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if names_and_points_events|length %}
+                    {% for names ,points in names_and_points_events.items() %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ names }}</td>
+                        <td>{{ points }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td></td>
+                        <td>None</td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!------------------------------------------------------->
         <div class="h-auto">
 
-            <h4 class="mx-auto text-center mt-5"> Standings </h4>
+            <h4 class="mx-auto text-center mt-5"> Seasonal Standings </h4>
             <hr>
             <select class="form-select mt-3" name="dropdown" id="dropdown" aria-label="Default select example">
                 <option value="-1" selected>Choose a Season/ Overall</option>
@@ -53,6 +105,8 @@
 </div>
 <form method="POST" role="form" >
     <input type="text" name="sid" hidden id="dropdown_input" value="">
+    <input type="text" name="season_dropdown" hidden id="season_dropdown_input" value="">
+    <input type="text" name="tourn_dropdown" hidden id="tourn_dropdown_input" value="">
     <input id="myHiddenSubmit" hidden type="submit">
 </form>
 
@@ -61,15 +115,42 @@
 <script type="text/javascript">
 
  var sid = {{sid}}
+ var season_chosen = {{season_chosen}}
+ var tourn_event = {{tourn_chosen}}
 
  if(sid >=0 ){
     $("#dropdown").val(sid)
+ }
+
+  if(season_chosen >=0 ){
+    $("#season_dropdown").val(season_chosen)
+ }
+
+  if(tourn_event >=0 ){
+    $("#tourn_dropdown").val(tourn_event)
  }
 
 
  $("[name=dropdown]").change(function(){
 
     $("#dropdown_input").val(this.value)
+    $("#myHiddenSubmit").click();
+
+ });
+
+
+ $("[name=season_dropdown]").change(function(){
+
+    $("#season_dropdown_input").val(this.value)
+    $("#myHiddenSubmit").click();
+
+ });
+
+
+ $("[name=tourn_dropdown]").change(function(){
+
+    $("#season_dropdown_input").val($("[name=season_dropdown]").val())
+    $("#tourn_dropdown_input").val(this.value)
     $("#myHiddenSubmit").click();
 
  });
