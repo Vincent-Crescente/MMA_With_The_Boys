@@ -226,7 +226,9 @@ class Standings(Resource):
                     # { 'Wally': 7, 'Vincent': 5}
                     sorted_points = {k: v for k, v in sorted(ids_and_points.items(), key=lambda item: item[1], reverse=True)}
 
-                return make_response(render_template("standings.html", ids=ids, names_and_points={}, names_and_points_events=sorted_points, events=event_names, season_chosen=int(data['season_dropdown']),tourn_chosen=int(data['tourn_dropdown']), sid=-1), 200)
+                    return make_response(render_template("standings.html", ids=ids, names_and_points={}, names_and_points_events=sorted_points, events=event_names, season_chosen=int(data['season_dropdown']),tourn_chosen=int(data['tourn_dropdown']), sid=-1), 200)
+                else:
+                    return make_response(render_template("standings.html", ids=ids, names_and_points={}, names_and_points_events=[], events=event_names, season_chosen=int(data['season_dropdown']),tourn_chosen=int(data['tourn_dropdown']), sid=-1), 200)
 
             else:
                 all_seasons = SeasonModel.all_seasons()
@@ -234,14 +236,7 @@ class Standings(Resource):
                 for s in all_seasons:
                     ids[s.name] = s.id
 
-                if int(data['season_dropdown']) > 0:
-                    season_obj = SeasonModel.get_season_byid(data['season_dropdown'])
-                    if season_obj:
-                        season_event_names = [s1['name'] for s1 in season_obj.json()['events']]
-                    else:
-                        pass
                 return make_response(render_template("standings.html", ids=ids, names_and_points=[],season_chosen=-1,tourn_chosen=-1, sid=-1), 200)
-
         else:
 
             all_seasons = SeasonModel.all_seasons()
