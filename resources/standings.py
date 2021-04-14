@@ -137,7 +137,6 @@ class Standings(Resource):
 
         elif data['season_dropdown'] and not data['tourn_dropdown']:
 
-            names_and_points_events = []
             event_names = {}
 
             all_seasons = SeasonModel.all_seasons()
@@ -177,7 +176,8 @@ class Standings(Resource):
                     sorted_points = {k: v for k, v in sorted(ids_and_points.items(), key=lambda item: item[1], reverse=True)}
 
                     return make_response(render_template("standings.html", ids=ids, names_and_points={}, names_and_points_events=sorted_points, events=event_names, season_chosen=int(data['season_dropdown']),tourn_chosen=-1, sid=-1), 200)
-
+                else:
+                    return make_response(render_template("standings.html", ids=ids, names_and_points=[], events=event_names, season_chosen=int(data['season_dropdown']), tourn_chosen=-1, sid=-1), 200)
             else:
                 all_seasons = SeasonModel.all_seasons()
                 ids = {}
