@@ -26,6 +26,7 @@
         <td class="text-center align-middle">{{s1.name}}</td>
         <td class="text-center align-middle">{{s1.active}}</td>
         <td class="text-center align-middle">{{s1.admin}}</td>
+        {% if user.username != "GuestUser9" %}
         {% if s1.id in seasonsEnrolled_byUser %}
         <td>
             <button class="{{s1.id}} btn-block btn btn-warning btn-view btn-md">(Enrolled) Draft/View Picks</button>
@@ -33,6 +34,11 @@
         {% else %}
         <td>
             <button class="{{s1.id}} btn-block d-block btn btn-primary btn-draft btn-md" data-toggle="modal" data-target="#enrolledmodal">Enroll/Draft</button>
+        </td>
+        {% endif %}
+        {% else %}
+        <td>
+            <button class=" btn-block d-block btn btn-secondary disabled btn-draft btn-md"  data-toggle="modal" >N/A for Guest</button>
         </td>
         {% endif %}
     </tr>
