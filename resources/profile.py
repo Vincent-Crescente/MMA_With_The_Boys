@@ -317,7 +317,7 @@ class Profile(Resource):
 
                     admin_value = Profile.admin_table_info(admins_seasons)
 
-                    return make_response(render_template("profile.html", season_names=values[0], total=values[1], tourns=[], admin_table=admin_value, username=user.username, popover=0), 200)
+                    return make_response(render_template("profile.html", season_names=values[0], total=values[1], tourns=[], admin_table=admin_value, username=user.username, popover=3), 200)
 
 
             else:

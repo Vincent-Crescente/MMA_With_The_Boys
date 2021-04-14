@@ -16,7 +16,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Username </span>
                 </div>
-                <input type="text" name="name_update" id="update_name_input" class="w-auto" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Please enter a username that is a least 8 characters, with at least one capital and one lowercase." value="" placeholder="{{username}}">
+                <input type="text" name="name_update" id="update_name_input" class="w-auto" title="Please enter a username that is a least 8 characters, with at least one capital and one lowercase." value="" placeholder="{{username}}">
             </div>
 
         </div>
@@ -239,6 +239,12 @@
     }else if ({{popover}} == 2){
 
         $("#username_body").html("That Username Already Exists")
+        $("#changeNameLabel").html("Not Updated")
+        $("#changeNameModal").modal('show')
+
+    }else if ({{popover}} == 3){
+
+        $("#username_body").html("Please enter a username that is a least 8 characters, with at least one capital and one lowercase.")
         $("#changeNameLabel").html("Not Updated")
         $("#changeNameModal").modal('show')
 
