@@ -118,11 +118,12 @@
                     <td scope="row" class="text-center align-middle">{{ a1['season_name'] }}</td>
                     <td scope="row" class="text-center align-middle">{{ a1['event_name'] }}</td>
                     <td scope="row" class="text-center align-middle">{{ a1['active'] }}</td>
-                    <td scope="row" class="text-center align-middle"><a href="/filltournament/{{a1['eid']}}" class="btn btn-warning" role="button">Update Results</a></td>
                     {% if a1['active']  %}
+                    <td scope="row" class="text-center align-middle"><a href="/filltournament/{{a1['eid']}}" class="btn btn-warning" role="button">Update Results</a></td>
                     <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}} deactivate-btn btn-block d-block btn btn-danger btn-draft btn-md" data-toggle="modal" data-target="#deactivateModal" >Deactivate Event</button></td>
                     {% else %}
-                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}}  btn-block d-block btn btn-secondary btn-md " disabled>Event Deactivated</button></td>
+                    <td scope="row" class="text-center align-middle"><a href="/filltournament/{{a1['eid']}}" class="btn btn-warning disabled" role="button">Event Completed Cannot Update</a></td>
+                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}}  btn-block d-block btn btn-secondary btn-md " data-toggle="modal" data-target="#deactivateModal" disabled>Event Deactivated</button></td>
                     {% endif %}
                     <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}} delete-btn btn-block d-block btn btn-danger btn-md" data-toggle="modal" data-target="#areyousureModal" id="deleteBTN">Delete</button></td>
                 </tr>
