@@ -29,16 +29,18 @@
 
         {% if s1.admin == "GuestUser9" %}
 
-        {% if s1.id in seasonsEnrolled_byUser %}
-        <td>
-            <button class="{{s1.id}} btn-block btn btn-warning btn-view btn-md">(Enrolled) Draft/View Picks</button>
-        </td>
-        {% endif %}
-        
-        {% else %}
+            {% if s1.id in seasonsEnrolled_byUser %}
             <td>
-                <button class="{{s1.id}} btn-block d-block btn btn-primary btn-draft btn-md" data-toggle="modal" data-target="#enrolledmodal">N/A for Guest</button>
+                <button class="{{s1.id}} btn-block btn btn-warning btn-view btn-md">(Enrolled) Draft/View Picks</button>
             </td>
+
+
+            {% else %}
+                <td>
+                    <button class="{{s1.id}} btn-block d-block btn btn-primary btn-draft btn-md" data-toggle="modal" data-target="#enrolledmodal">N/A for Guest</button>
+                </td>
+            {% endif %}
+
         {% endif %}
 
         {% if s1.admin != "GuestUser9" %}
