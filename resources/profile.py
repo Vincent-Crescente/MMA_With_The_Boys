@@ -217,7 +217,6 @@ class Profile(Resource):
                     fighters_obj = FightersLineUpModel.all_fighters_specific_tourn(data['delete'])
                     picks_obj = UserPicksModel.picks_by_tourn_id(data['delete'])
 
-
                     if enroll_obj:
                         for obj in enroll_obj:
                             obj.delete_from_db()

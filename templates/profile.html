@@ -123,9 +123,9 @@
                     <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}} deactivate-btn btn-block d-block btn btn-danger btn-draft btn-md" data-toggle="modal" data-target="#deactivateModal" >Deactivate Event</button></td>
                     {% else %}
                     <td scope="row" class="text-center align-middle"><a href="/filltournament/{{a1['eid']}}" class="btn btn-warning disabled" role="button">Event Completed Cannot Update</a></td>
-                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}}  btn-block d-block btn btn-secondary btn-md " data-toggle="modal" data-target="#deactivateModal" disabled>Event Deactivated</button></td>
+                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}}  btn-block d-block btn btn-secondary btn-md " disabled>Event Deactivated</button></td>
                     {% endif %}
-                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}} delete-btn btn-block d-block btn btn-danger btn-md" data-toggle="modal" data-target="#areyousureModal" id="deleteBTN">Delete</button></td>
+                    <td scope="row" class="text-center align-middle"><button class="{{a1['eid']}} delete-btn btn-block d-block btn btn-danger btn-md deleteBTN" data-toggle="modal" data-target="#areyousureModal" >Delete</button></td>
                 </tr>
                 {% endfor %}
             {% else %}
@@ -193,6 +193,26 @@
     </div>
 </div>
 
+<div class="modal fade"  id="newNameModal" tabindex="-1" aria-labelledby="newNameModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title alert-warning" id="newNameModalLabel">Change Name ?</h5>
+                <button type="button" class="close closeBTN3" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to change your name ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary yesBTN4" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-secondary closeBTN4" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -206,8 +226,8 @@
     var delete_event = $(".delete-btn");
     var input_season_name = $("#season_name_input")
     var yesBTN = $(".yesBTN")
-    var yesBTN2 = $(".yesBTN2")
     var yesBTN3 = $(".yesBTN3")
+    var yesBTN4 = $(".yesBTN4")
     var submission = [];
 
     if ({{popover}} == 1){
@@ -222,7 +242,6 @@
         $("#changeNameLabel").html("Not Updated")
         $("#changeNameModal").modal('show')
 
-
     }
 
     $(row_clicked).click(function(){
@@ -234,17 +253,18 @@
 
     $(deactivate_event).click(function(){
 
-        $("#deactivate_input").val(this.classList[0])
+        var t = $("#deactivate_input").val(this.classList[0])
 
+        $(yesBTN3).click(function(){
 
-
+                $("#delete_input").val(t)
                 $('#myHiddenSubmit').click();
 
-
+        })
 
      })
 
-    $("#deleteBTN").click(function(){
+    $(".deleteBTN").click(function(){
 
             var t = this.classList[0]
             $(yesBTN).click(function(){
@@ -259,8 +279,11 @@
     $("#change_name").click(function(){
 
 
-        $('#myHiddenSubmit').click();
+        $(yesBTN4).click(function(){
 
+            $('#myHiddenSubmit').click();
+
+        })
 
     })
 
