@@ -1,23 +1,13 @@
 {% extends "base-nav.html" %}
 {% block title %} Home {% endblock %}
 
-{% block style %}
-<style>
-body{
-    background-image: url('/static/gym_fence.jpg');
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-</style>
-{% endblock %}
 
 {% block mainArea %}
 
 <div class="container">
     <div class="h-auto">
 
-        <h4 class="mx-auto text-center mt-5" style="color:white"> By Season By Event Standings </h4>
+        <h4 class="mx-auto text-center mt-5"> By Season By Event Standings </h4>
         <hr>
         <select class="form-select mt-3" name="season_dropdown" id="season_dropdown" aria-label="Default select example">
                 <option value="-1" selected>Choose a Season</option>
@@ -74,7 +64,7 @@ body{
 <!------------------------------------------------------->
         <div class="h-auto">
 
-            <h4 class="mx-auto text-center mt-5" style="color:white"> Seasonal Standings </h4>
+            <h4 class="mx-auto text-center mt-5" > Seasonal Standings </h4>
             <hr>
             <select class="form-select mt-3" name="dropdown" id="dropdown" aria-label="Default select example">
                 <option value="-1" selected>Choose a Season/ Overall</option>
