@@ -26,22 +26,22 @@
 
                 {% if s1.id in tournsEnrolled_byUser %}
                 <td>
-                    <button class="{{s1.id}} btn-block btn btn-warning btn-view btn-md">View Picks</button>
+                    <button class="{{s1.id}} btn-block btn btn-warning btn-view btn-md align-middle">View Picks</button>
                 </td>
                 {% else %}
                     {% if s1.active %}
                         {% if s1.started %}
                         <td>
-                            <button class="{{s1.id}} btn-block d-block btn btn-secondary btn-md" disabled>Started</button>
+                            <button class="{{s1.id}} btn-block d-block btn btn-secondary btn-md align-middle" disabled>Started</button>
                         </td>
                         {% else %}
                         <td>
-                            <button class="{{s1.id}} btn-block d-block btn btn-primary btn-draft btn-md">Draft</button>
+                            <button class="{{s1.id}} btn-block d-block btn btn-primary btn-draft btn-md align-middle">Draft</button>
                         </td>
                         {% endif %}
                     {% else %}
                     <td>
-                        <button class="btn-block d-block btn btn-danger btn-md" disabled>Ended</button>
+                        <button class="btn-block d-block btn btn-danger btn-md align-middle" disabled>Ended</button>
                     </td>
                     {% endif %}
                 {% endif %}
