@@ -6,11 +6,11 @@
 
     <form  action="/makeTournament" method="POST" role="form" class="form-horizontal">
 
-            <h4 class="text-center mb-0 mt-4">
+            <h4 class="text-center mb-0 mt-4" style="color:white">
                 New Season or Add Event to Season (Admins)
             </h4>
 
-            <label for="seasonName" class="mt-4">New Season</label>
+            <label for="seasonName" class="mt-4" style="color:white">New Season</label>
             <input type="text" class="form-control" id="seasonName" name="newSeasonName"  required>
 
             {% if curr_season|length %}
@@ -33,14 +33,14 @@
     <!----------------------------!-->
 
             <hr>
-            <h4 class="text-center mt-4 mb-0">
+            <h4 class="text-center mt-4 mb-0" style="color:white">
                     Add Event
             </h4>
 
-            <label for="tourName">Event Name</label>
+            <label for="tourName" style="color:white">Event Name</label>
             <input type="text" class="form-control" id="tourName" name="tourName" placeholder="" required>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover table-dark mt-2">
                     <thead>
                     <tr>
                         <th scope="col" class="text-center">Fighter 1</th>

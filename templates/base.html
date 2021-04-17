@@ -12,14 +12,22 @@
     <!-- Icon -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='glove-free-icon-guantes-de-mma-vector.png') }}">
 
+    <style>
+     body{
+      background-image: url('/static/gym_floor.jpg');
+      height: 100vh;
+      background-repeat: none;
+    }
+    </style>
+
     <title>{% block title %}{% endblock %}</title>
 
 </head>
 
-<body>
+<body class="img-fluid">
 <div class="container-fluid d-flex justify-content-center" style="margin-top:100px;outline-radius:50%;">
 
-    <div class="card ">
+    <div class="card " style="opacity:.9;">
 
         <div class="card-body">
 

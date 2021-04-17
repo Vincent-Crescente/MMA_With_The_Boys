@@ -1,10 +1,14 @@
 {% extends "base-nav.html" %}
 {% block title %} Home {% endblock %}
+
+
+
+
 {% block mainArea %}
 
 <div class="container">
 
-    <div class="text-center h3 mt-3 ">Profile Details</div>
+    <div class="text-center h3 mt-3" style="color:white">Profile Details</div>
 
     <form method="POST" role="form" >
 
@@ -21,16 +25,16 @@
 
         </div>
 
-        <button type="button" id="change_name" class="btn btn-sm btn-primary text-align-center text-nowrap col-6 col-sm-4 col-md-2" data-toggle="modal" data-target="#newNameModal">Change Name</button>
+        <button type="button" id="change_name" class="btn btn-sm btn-primary text-align-center text-nowrap col-6 col-sm-4 col-md-2" data-toggle="modal" data-target="#newNameModal" >Change Name</button>
 
     </div>
         {% endif %}
 
-        <div class="text-center h3 mt-3">Current Seasons</div>
+        <div class="text-center h3 mt-3" style="color:white">Current Seasons</div>
 
     <div class="row table-responsive d-flex justify-content-center mx-auto">
 
-            <table class="table table-hover col-12 col-md-5 mt-3">
+            <table class="table table-hover col-12 col-md-5 mt-3 table-dark">
                 <thead>
                 <tr>
                     <th scope="col" style="border-top:0px;">Seasons Enrolled</th>
@@ -54,7 +58,7 @@
 
 
 
-            <table class="table col-12 col-md-5 mt-3">
+            <table class="table col-12 col-md-5 mt-3 table-dark">
                 <thead>
                 <tr>
                     <th scope="col" style="border-top:0px;">Event in Season</th>
@@ -98,10 +102,10 @@
 <hr>
 
     {% if admin_table %}
-    <div class="text-center h3">Admin Controls</div>
+    <div class="text-center h3" style="color:white">Admin Controls</div>
 
     <div class="table-responsive">
-                <table class="table mx-auto w-auto">
+                <table class="table mx-auto w-auto table-dark">
                     <thead>
                     <tr>
                         <th scope="col" style="border-top:0px;" class="text-center ">Your Seasons</th>

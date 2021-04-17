@@ -319,7 +319,6 @@ class Profile(Resource):
 
                     return make_response(render_template("profile.html", season_names=values[0], total=values[1], tourns=[], admin_table=admin_value, username=user.username, popover=3), 200)
 
-
             else:
                 user = UserModel.find_by_username(session['user'])
 

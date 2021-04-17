@@ -15,18 +15,27 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='glove-free-icon-guantes-de-mma-vector.png') }}">
         <title>{% block title %}{% endblock %}</title>
 
+        {% block style %}
         <style>
             html {
              overflow-y: scroll;
              overflow-x: hidden;
-
             }
+
+             body{
+              background-image: url('/static/training-pic.jpg');
+              background-repeat:no-repeat;
+              max-width:100%;
+              height:auto;
+            }
+
         </style>
+        {% endblock %}
 
 
 </head>
 
-<body>
+<body class="img-fluid" >
 
 <div class="modal fade"  style="display:none;" id="enrolledmodal" tabindex="-1">
     <div class="modal-dialog">
