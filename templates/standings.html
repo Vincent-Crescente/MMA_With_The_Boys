@@ -43,11 +43,7 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ names }}</td>
-                        {% if points < 0 %}
-                            <td>DND</td>
-                        {% else %}
-                            <td>{{ points }}</td>
-                        {% endif %}
+                        <td>{{ points }}</td>
                     </tr>
                     {% endfor %}
                 {% else %}
