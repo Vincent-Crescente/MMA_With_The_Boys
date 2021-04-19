@@ -43,7 +43,11 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ names }}</td>
-                        <td>{{ points }}</td>
+                        {% if points < 0 %}
+                            <td>-</td>
+                        {% else %}
+                            <td>{{ points }}</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 {% else %}
@@ -73,7 +77,7 @@
         </select>
 
         <div class="table-responsive mx-auto mt-5">
-            <table class="table table-striped mx-auto w-50 text-center" style="background-color: #e3f2fd;">
+            <table class="table mx-auto w-50 text-center" style="background-color: #e3f2fd;">
                 <thead>
                 <tr>
                     <th scope="col">Place</th>
