@@ -15,11 +15,17 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='glove-free-icon-guantes-de-mma-vector.png') }}">
         <title>{% block title %}{% endblock %}</title>
 
+
+
         {% block style %}
         <style>
             html {
              overflow-y: scroll;
              overflow-x: hidden;
+             background-color:#d0d6db;
+            }
+            body{
+              background-color:#d0d6db;
             }
 
 
@@ -55,7 +61,7 @@
 
 
 <div class="container-fluid" style="padding: 0px !important;">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href="/home">MMA w/ The Boys</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

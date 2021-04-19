@@ -14,6 +14,19 @@
 
     <title>{% block title %}{% endblock %}</title>
 
+
+    {% block style %}
+    <style>
+            html {
+             overflow-y: scroll;
+             overflow-x: hidden;
+             background-color:red;
+            }
+
+
+        </style>
+    {% endblock %}
+
 </head>
 
 <body class="img-fluid">
