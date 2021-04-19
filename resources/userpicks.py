@@ -22,9 +22,11 @@ class UserPicks(Resource):
                 if d['tournid'] == id:
                     filtered_picks_by_tourn.append(d)
 
+            sorted_picks_by_id = sorted(filtered_picks_by_tourn, key=lambda k: k['id'])
+
             if tournData:
                 if data:
-                    return make_response(render_template("viewpicks.html", data=filtered_picks_by_tourn, user=user, tname=tournData.name, t_id=tournData.id, tournData=tournData), 200)
+                    return make_response(render_template("viewpicks.html", data=sorted_picks_by_id, user=user, tname=tournData.name, t_id=tournData.id, tournData=tournData), 200)
                 else:
                     return {"message": "User does not exist"}
             else:
